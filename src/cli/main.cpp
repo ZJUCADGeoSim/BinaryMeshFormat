@@ -11,11 +11,9 @@ int main(int argc, char *arg[]) {
     std::string mode = arg[1];
     char *input = arg[2];
     char *output = arg[3];
-    Eigen::MatrixXd CN;
+    Eigen::MatrixX<zjucad::FLOAT> CN, V, TC;
     Eigen::MatrixXi FN;
-    Eigen::MatrixXd V;
     Eigen::MatrixXi F;
-    Eigen::MatrixXd TC;
     Eigen::MatrixXi FTC;
 
     if (mode == "o2b") {

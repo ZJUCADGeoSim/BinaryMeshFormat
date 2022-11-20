@@ -4,9 +4,10 @@
 #include <fstream>
 
 namespace zjucad {
+
 void read_bmf(std::istream &fin,
-              Eigen::MatrixXd &V,
-              Eigen::MatrixXd &TC,
+              Eigen::MatrixX<FLOAT> &V,
+              Eigen::MatrixX<FLOAT> &TC,
               Eigen::MatrixXi &F,
               Eigen::MatrixXi &FTC) {
     char header[4];
@@ -25,11 +26,11 @@ void read_bmf(std::istream &fin,
     fin.read(reinterpret_cast<char *>(&n_face_vert), sizeof(int));
 
     V.resize(n_vertices, 3);
-    fin.read(reinterpret_cast<char *>(V.data()), n_vertices * 3 * sizeof(double));
+    fin.read(reinterpret_cast<char *>(V.data()), n_vertices * 3 * sizeof(FLOAT));
 
     if (n_texture_vertices > 0) {
         TC.resize(n_texture_vertices, 2);
-        fin.read(reinterpret_cast<char *>(TC.data()), n_texture_vertices * 2 * sizeof(double));
+        fin.read(reinterpret_cast<char *>(TC.data()), n_texture_vertices * 2 * sizeof(FLOAT));
     }
 
     if (n_vertices > std::numeric_limits<unsigned short>::max()) {
@@ -56,8 +57,8 @@ void read_bmf(std::istream &fin,
 }
 
 void write_bmf(std::ostream &fout,
-               const Eigen::MatrixXd &V,
-               const Eigen::MatrixXd &TC,
+               const Eigen::MatrixX<FLOAT> &V,
+               const Eigen::MatrixX<FLOAT> &TC,
                const Eigen::MatrixXi &F,
                const Eigen::MatrixXi &FTC) {
     char header[4] = {'b', 'm', BMF_VERSION_MAJOR, BMF_VERSION_MINOR};
@@ -69,9 +70,9 @@ void write_bmf(std::ostream &fout,
     fout.write(reinterpret_cast<char *>(&n_faces), sizeof(int));
     fout.write(reinterpret_cast<char *>(&n_face_vert), sizeof(int));
 
-    fout.write(reinterpret_cast<const char *>(V.data()), n_vertices * 3 * sizeof(double));
+    fout.write(reinterpret_cast<const char *>(V.data()), n_vertices * 3 * sizeof(FLOAT));
     if (n_texture_vertices > 0) {
-        fout.write(reinterpret_cast<const char *>(TC.data()), n_texture_vertices * 2 * sizeof(double));
+        fout.write(reinterpret_cast<const char *>(TC.data()), n_texture_vertices * 2 * sizeof(FLOAT));
     }
     if (n_vertices > std::numeric_limits<unsigned short>::max()) {
         fout.write(reinterpret_cast<const char *>(F.data()), n_faces * n_face_vert * sizeof(int));
@@ -91,8 +92,8 @@ void write_bmf(std::ostream &fout,
 }
 
 void read_bmf(const char *filename,
-              Eigen::MatrixXd &V,
-              Eigen::MatrixXd &TC,
+              Eigen::MatrixX<FLOAT> &V,
+              Eigen::MatrixX<FLOAT> &TC,
               Eigen::MatrixXi &F,
               Eigen::MatrixXi &FTC) {
     std::ifstream fin(filename, std::ios::binary);
@@ -103,8 +104,8 @@ void read_bmf(const char *filename,
 }
 
 void write_bmf(const char *filename,
-               const Eigen::MatrixXd &V,
-               const Eigen::MatrixXd &TC,
+               const Eigen::MatrixX<FLOAT> &V,
+               const Eigen::MatrixX<FLOAT> &TC,
                const Eigen::MatrixXi &F,
                const Eigen::MatrixXi &FTC) {
     std::ofstream fout(filename, std::ios::binary | std::ios::trunc);

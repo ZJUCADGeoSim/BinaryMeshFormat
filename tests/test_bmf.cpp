@@ -6,7 +6,7 @@
 #include <zjucad/bmf/bmf.hpp>
 
 TEST_CASE("test equality") {
-    Eigen::MatrixXd V(100, 3), TC(100, 3);
+    Eigen::MatrixX<zjucad::FLOAT> V(100, 3), TC(100, 3);
     Eigen::MatrixXi F(300, 3), FTC(300, 3);
     V.setRandom();
     TC.setRandom();
@@ -22,7 +22,7 @@ TEST_CASE("test equality") {
 
     zjucad::write_bmf(ss, V, TC, F, FTC);
 
-    Eigen::MatrixXd V2, TC2;
+    Eigen::MatrixX<zjucad::FLOAT> V2, TC2;
     Eigen::MatrixXi F2, FTC2;
 
     ss.seekg(0, std::ios::beg);
